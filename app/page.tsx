@@ -102,7 +102,8 @@ export default function Home() {
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2 text-green-400">{product.name}</h3>
-                  <p className="text-green-300 mb-4">${product.price}</p>
+                  <p className="text-green-300 mb-2">${product.price}</p>
+                  <p className="text-green-500 mb-4 text-sm">{product.category}</p>
                   <Link
                     href={`/product/${product.id}`}
                     className="inline-block bg-green-600 text-black px-4 py-2 rounded-full hover:bg-green-500 transition duration-300"

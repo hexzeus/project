@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import Image from 'next/image';
+import { FaSearch, FaFilter } from 'react-icons/fa';
 
 type Product = {
   id: string;
@@ -48,48 +49,77 @@ export default function Home() {
   }, [search, selectedCategory, products]);
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="p-2 border border-gray-700 rounded bg-gray-700 text-white"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select
-          className="p-2 border border-gray-700 rounded bg-gray-700 text-white"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </div>
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-100">Our Products</h2>
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="spinner"></div>
+    <div className="min-h-screen bg-gray-100">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Our Products</h1>
+
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <div className="relative w-full md:w-1/2 mb-4 md:mb-0">
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="w-full p-3 pl-10 pr-4 border border-gray-300 rounded-full bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
+
+          <div className="relative w-full md:w-auto">
+            <select
+              className="w-full md:w-auto appearance-none p-3 pl-10 pr-8 border border-gray-300 rounded-full bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <div key={product.id} className="card bg-gray-900 text-white transform transition duration-500 hover:scale-105 hover:shadow-xl">
-              <Image src={product.image} alt={product.name} width={500} height={500} className="w-full h-64 object-cover rounded" />
-              <div className="p-4">
-                <h3 className="text-xl mt-4 font-semibold">{product.name}</h3>
-                <p className="text-gray-400 mt-2">${product.price}</p>
-                <Link href={`/product/${product.id}`} className="block mt-4 text-blue-500 hover:underline">
-                  View Details
-                </Link>
+
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="spinner"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {filteredProducts.map((product) => (
+              <div key={product.id} className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-xl">
+                <div className="relative h-64">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    layout="fill"
+                    objectFit="cover"
+                    className="transition duration-300 ease-in-out transform hover:scale-110"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2 text-gray-800">{product.name}</h3>
+                  <p className="text-gray-600 mb-4">${product.price}</p>
+                  <Link
+                    href={`/product/${product.id}`}
+                    className="inline-block bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300"
+                  >
+                    View Details
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+
+        {filteredProducts.length === 0 && !loading && (
+          <div className="text-center text-gray-600 mt-8">
+            <p className="text-2xl mb-4">No products found</p>
+            <p>Try adjusting your search or filter to find what you&apos;re looking for.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

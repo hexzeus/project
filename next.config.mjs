@@ -15,9 +15,22 @@ const securityHeaders = [
         key: 'Content-Security-Policy',
         value: ContentSecurityPolicy.replace(/\n/g, ''),
     },
+    // You might want to add other security headers here, such as:
+    {
+        key: 'X-XSS-Protection',
+        value: '1; mode=block'
+    },
+    {
+        key: 'X-Frame-Options',
+        value: 'SAMEORIGIN'
+    },
+    {
+        key: 'X-Content-Type-Options',
+        value: 'nosniff'
+    },
 ];
 
-export default {
+const nextConfig = {
     reactStrictMode: true,
     images: {
         domains: ['files.cdn.printful.com'],
@@ -31,3 +44,5 @@ export default {
         ];
     },
 };
+
+export default nextConfig;

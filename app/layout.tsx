@@ -1,14 +1,22 @@
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
-import { FaHome, FaHeart, FaShoppingCart, FaGithub } from 'react-icons/fa';
+import Image from 'next/image';
+import { FaHome, FaHeart, FaShoppingCart, FaGithub, FaTwitter, FaInstagram } from 'react-icons/fa';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'IVES_HUB STORE',
-  description: 'Custom frontend for Printful - Your one-stop shop for custom prints and merchandise',
+  description: 'Custom frontend for Printful - Your cyberpunk portal for digital merchandise',
 };
+
+const Logo = () => (
+  <svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 25L30 5L50 25L70 5L90 25L110 5L130 25L150 5L170 25L190 5" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <text x="50%" y="70%" dominantBaseline="middle" textAnchor="middle" fill="#10B981" fontSize="24" fontWeight="bold" fontFamily="monospace">IVES_HUB</text>
+  </svg>
+);
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,8 +25,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="border-b border-green-500">
           <div className="container mx-auto px-4 py-6">
             <div className="flex justify-between items-center">
-              <Link href="/" className="text-3xl font-bold tracking-wider hover:text-green-400 transition duration-300">
-                IVES_HUB
+              <Link href="/" className="hover:opacity-80 transition duration-300">
+                <Logo />
               </Link>
               <nav className="flex space-x-8">
                 {[
@@ -35,17 +43,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </header>
-
         <main className="flex-grow">
           {children}
         </main>
-
         <footer className="border-t border-green-500">
           <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="mb-4 md:mb-0">
-                <h2 className="text-2xl font-bold mb-2">IVES_HUB MERCH</h2>
-                <p className="text-green-700">Your portal to custom digital merchandise</p>
+                <Logo />
+                <p className="text-green-700 mt-2">Your cyberpunk portal to digital merchandise</p>
               </div>
               <div className="flex space-x-6">
                 {['About', 'Contact', 'Terms', 'Privacy'].map((item) => (
@@ -58,9 +64,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="mt-8 flex justify-center items-center space-x-4 text-green-700">
               <p>&copy; {new Date().getFullYear()} IVES_HUB</p>
               <span>|</span>
-              <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition duration-300">
-                <FaGithub className="text-xl" />
-              </a>
+              <div className="flex space-x-4">
+                {[FaGithub, FaTwitter, FaInstagram].map((Icon, index) => (
+                  <a key={index} href="#" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition duration-300">
+                    <Icon className="text-xl" />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </footer>

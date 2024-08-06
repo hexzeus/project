@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import Image from 'next/image';
@@ -19,11 +19,11 @@ type Product = {
   image: string;
   price: string;
   category: string;
-  variants?: Variant[];  // Make variants optional
-  rating?: number;  // Make rating optional
-  reviewCount?: number;  // Make reviewCount optional
-  isNewArrival?: boolean;  // Make isNewArrival optional
-  isBestSeller?: boolean;  // Make isBestSeller optional
+  variants?: Variant[];
+  rating?: number;
+  reviewCount?: number;
+  isNewArrival?: boolean;
+  isBestSeller?: boolean;
 };
 
 const categories = ["All", "T-Shirts", "Hoodies", "Hats", "Accessories"];
@@ -36,20 +36,22 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('featured');
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data } = await axios.get('/api/products');
-        setProducts(data);
-        setFilteredProducts(data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get('/api/products');
+      setProducts(data);
+      setFilteredProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   useEffect(() => {
     let filtered = products.filter(product =>
@@ -59,7 +61,6 @@ export default function Home() {
       filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
-    // Apply sorting
     switch (sortBy) {
       case 'priceLowToHigh':
         filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
@@ -73,9 +74,6 @@ export default function Home() {
       case 'newArrivals':
         filtered.sort((a, b) => (b.isNewArrival ? 1 : 0) - (a.isNewArrival ? 1 : 0));
         break;
-      default:
-        // 'featured' sorting is default, no need to sort
-        break;
     }
 
     setFilteredProducts(filtered);
@@ -84,8 +82,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black text-green-400">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8 text-center text-green-500 glitch-text tracking-wider font-matrix">
-          IVES HUB MERCH
+        <h1 className="text-4xl font-bold mb-8 text-center text-green-500 glitch-container">
+          <span className="glitch" data-text="IVES HUB MERCH">IVES HUB MERCH</span>
         </h1>
 
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -108,9 +106,7 @@ export default function Home() {
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
+                  <option key={category} value={category}>{category}</option>
                 ))}
               </select>
               <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
@@ -138,10 +134,10 @@ export default function Home() {
             <div className="spinner border-t-4 border-green-500 rounded-full w-12 h-12 animate-spin"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
             {filteredProducts.map((product) => (
               <div key={product.id} className="bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-green-500/50">
-                <div className="relative h-64">
+                <div className="relative h-48 md:h-64">
                   <Image
                     src={product.image}
                     alt={product.name}
@@ -151,7 +147,7 @@ export default function Home() {
                   />
                   {product.isNewArrival && (
                     <span className="absolute top-2 left-2 bg-green-500 text-black px-2 py-1 rounded-full text-xs font-bold">
-                      New Arrival
+                      New
                     </span>
                   )}
                   {product.isBestSeller && (
@@ -160,8 +156,8 @@ export default function Home() {
                     </span>
                   )}
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2 text-green-400">{product.name}</h3>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold mb-2 text-green-400 truncate">{product.name}</h3>
                   <p className="text-green-300 mb-2">${product.price}</p>
                   <p className="text-green-500 mb-2 text-sm">{product.category}</p>
                   {(product.rating !== undefined && product.reviewCount !== undefined) && (
@@ -171,25 +167,12 @@ export default function Home() {
                           <FaStar key={i} className={i < product.rating! ? "text-yellow-500" : "text-gray-500"} />
                         ))}
                       </div>
-                      <span className="text-green-300 text-sm">({product.reviewCount} reviews)</span>
+                      <span className="text-green-300 text-xs">({product.reviewCount})</span>
                     </div>
-                  )}
-                  {product.variants && (
-                    <p className="text-green-400 mb-4 text-sm">{product.variants.length} variants available</p>
-                  )}
-                  {product.isNewArrival && (
-                    <span className="inline-block bg-green-500 text-black px-2 py-1 rounded-full text-xs font-bold mr-2 mb-2">
-                      New Arrival
-                    </span>
-                  )}
-                  {product.isBestSeller && (
-                    <span className="inline-block bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-bold mr-2 mb-2">
-                      Best Seller
-                    </span>
                   )}
                   <Link
                     href={`/product/${product.id}`}
-                    className="inline-block bg-green-600 text-black px-4 py-2 rounded-full hover:bg-green-500 transition duration-300"
+                    className="inline-block w-full text-center bg-green-600 text-black px-4 py-2 rounded-full hover:bg-green-500 transition duration-300"
                   >
                     View Details
                   </Link>

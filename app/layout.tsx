@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Printful Store',
+  title: 'IVES_HUB STORE',
   description: 'Custom frontend for Printful',
 };
 
@@ -13,20 +13,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="py-6 bg-gray-100 text-center">
-          <h1>My Printful Store</h1>
+        <header className="py-6 bg-gray-900 text-center text-white">
+          <h1 className="text-3xl font-bold">IVES_HUB STORE</h1>
           <nav className="mt-4">
-            <Link href="/" className="mr-4">
+            <Link href="/" className="mr-4 hover:underline">
               Home
             </Link>
-            <Link href="/cart">
+            <Link href="/wishlist" className="mr-4 hover:underline">
+              Wishlist
+            </Link>
+            <Link href="/cart" className="hover:underline">
               Cart
             </Link>
           </nav>
         </header>
-        <main>{children}</main>
-        <footer className="py-6 bg-gray-100 text-center">
-          <p>&copy; 2024 My Printful Store</p>
+        <main className="bg-gray-800 text-white min-h-screen">{children}</main>
+        <footer className="py-6 bg-gray-900 text-center text-white">
+          <p>&copy; 2024 IVES_HUB STORE</p>
         </footer>
       </body>
     </html>

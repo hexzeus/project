@@ -71,7 +71,7 @@ const CheckoutPage = () => {
                                 name="name"
                                 value={customer.name}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-2 border rounded"
+                                className="w-full px-4 py-2 border rounded bg-gray-800 text-white"
                             />
                         </div>
                         <div className="mb-4">
@@ -81,7 +81,7 @@ const CheckoutPage = () => {
                                 name="email"
                                 value={customer.email}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-2 border rounded"
+                                className="w-full px-4 py-2 border rounded bg-gray-800 text-white"
                             />
                         </div>
                         <div className="mb-4">
@@ -91,7 +91,7 @@ const CheckoutPage = () => {
                                 name="address"
                                 value={customer.address}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-2 border rounded"
+                                className="w-full px-4 py-2 border rounded bg-gray-800 text-white"
                             />
                         </div>
                         <div className="mb-4">
@@ -101,7 +101,7 @@ const CheckoutPage = () => {
                                 name="city"
                                 value={customer.city}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-2 border rounded"
+                                className="w-full px-4 py-2 border rounded bg-gray-800 text-white"
                             />
                         </div>
                         <div className="mb-4">
@@ -111,7 +111,7 @@ const CheckoutPage = () => {
                                 name="state"
                                 value={customer.state}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-2 border rounded"
+                                className="w-full px-4 py-2 border rounded bg-gray-800 text-white"
                             />
                         </div>
                         <div className="mb-4">
@@ -121,7 +121,7 @@ const CheckoutPage = () => {
                                 name="zip"
                                 value={customer.zip}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-2 border rounded"
+                                className="w-full px-4 py-2 border rounded bg-gray-800 text-white"
                             />
                         </div>
                     </div>
@@ -129,7 +129,7 @@ const CheckoutPage = () => {
                         <div key={index} className="flex justify-between items-center mb-4">
                             <div>
                                 <h3 className="text-lg">{item.name}</h3>
-                                <p className="text-gray-600">${item.price}</p>
+                                <p className="text-gray-400">${item.price}</p>
                             </div>
                         </div>
                     ))}

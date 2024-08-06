@@ -68,30 +68,30 @@ const CheckoutPage = () => {
     };
 
     return (
-        <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
-            <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Checkout</h2>
+        <div className="container mx-auto p-4 bg-black min-h-screen text-green-400">
+            <h2 className="text-3xl font-bold mb-8 text-center text-green-500">Checkout</h2>
             {cart.length === 0 ? (
-                <div className="text-center bg-white p-8 rounded-lg shadow-lg">
-                    <FaShoppingCart className="mx-auto text-6xl text-gray-400 mb-4" />
-                    <p className="text-2xl mb-6 text-gray-600">Your cart is empty.</p>
-                    <a href="/" className="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-300 text-lg font-semibold">
+                <div className="text-center bg-gray-900 p-8 rounded-lg shadow-lg border border-green-500">
+                    <FaShoppingCart className="mx-auto text-6xl text-green-500 mb-4" />
+                    <p className="text-2xl mb-6 text-green-400">Your cart is empty.</p>
+                    <a href="/" className="bg-green-600 text-black px-8 py-3 rounded-full hover:bg-green-500 transition duration-300 text-lg font-semibold">
                         Continue Shopping
                     </a>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-white p-6 rounded-lg shadow-md">
-                        <h3 className="text-2xl font-semibold mb-6 text-gray-800">Customer Information</h3>
+                    <div className="bg-gray-900 p-6 rounded-lg shadow-md border border-green-500">
+                        <h3 className="text-2xl font-semibold mb-6 text-green-500">Customer Information</h3>
                         <div className="space-y-4">
                             {Object.entries(customer).map(([key, value]) => (
                                 <div key={key}>
-                                    <label className="block text-gray-700 mb-2 capitalize">{key}</label>
+                                    <label className="block text-green-400 mb-2 capitalize">{key}</label>
                                     <input
                                         type={key === 'email' ? 'email' : 'text'}
                                         name={key}
                                         value={value}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+                                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 bg-gray-800 text-green-400 border-green-500"
                                         required
                                     />
                                 </div>
@@ -99,30 +99,30 @@ const CheckoutPage = () => {
                         </div>
                     </div>
                     <div>
-                        <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-                            <h3 className="text-2xl font-semibold mb-6 text-gray-800">Order Summary</h3>
+                        <div className="bg-gray-900 p-6 rounded-lg shadow-md mb-6 border border-green-500">
+                            <h3 className="text-2xl font-semibold mb-6 text-green-500">Order Summary</h3>
                             {cart.map((item, index) => (
-                                <div key={index} className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 last:border-b-0 last:pb-0 last:mb-0">
+                                <div key={index} className="flex justify-between items-center mb-4 pb-4 border-b border-green-500 last:border-b-0 last:pb-0 last:mb-0">
                                     <div>
-                                        <h4 className="text-lg font-semibold text-gray-800">{item.name}</h4>
-                                        <p className="text-gray-600">Quantity: {item.quantity}</p>
+                                        <h4 className="text-lg font-semibold text-green-400">{item.name}</h4>
+                                        <p className="text-green-300">Quantity: {item.quantity}</p>
                                     </div>
-                                    <p className="text-lg font-semibold text-gray-800">${(parseFloat(item.price) * item.quantity).toFixed(2)}</p>
+                                    <p className="text-lg font-semibold text-green-500">${(parseFloat(item.price) * item.quantity).toFixed(2)}</p>
                                 </div>
                             ))}
-                            <div className="flex justify-between items-center mt-6 pt-6 border-t border-gray-200">
-                                <span className="text-2xl font-bold text-gray-800">Total</span>
-                                <span className="text-2xl font-bold text-blue-600">${calculateTotal()}</span>
+                            <div className="flex justify-between items-center mt-6 pt-6 border-t border-green-500">
+                                <span className="text-2xl font-bold text-green-400">Total</span>
+                                <span className="text-2xl font-bold text-green-500">${calculateTotal()}</span>
                             </div>
                         </div>
                         {error && <p className="text-red-500 mb-4">{error}</p>}
                         <button
-                            className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300 text-lg font-semibold flex items-center justify-center"
+                            className="w-full bg-green-600 text-black px-6 py-3 rounded-full hover:bg-green-500 transition duration-300 text-lg font-semibold flex items-center justify-center"
                             onClick={handleCheckout}
                             disabled={loading}
                         >
                             {loading ? (
-                                <div className="spinner mr-2"></div>
+                                <div className="spinner mr-2 border-t-2 border-black"></div>
                             ) : (
                                 <FaLock className="mr-2" />
                             )}
